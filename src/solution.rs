@@ -1,6 +1,6 @@
-use std::io;
 use rand::Rng;
 use std::cmp::Ordering;
+use std::io;
 
 fn main() {
     println!("Guess the number!");
@@ -10,20 +10,18 @@ fn main() {
     loop {
         println!("Please input your guess.");
 
-        let mut guess = String::new(); // let is const by default unless indicate mut for mutable
+        let mut guess = String::new();
 
         io::stdin()
-            .read_line(&mut guess) // & indicates that this is a reference - references are immutable by default so you must include the mut
+            .read_line(&mut guess)
             .expect("Failed to read line");
 
-        let guess: u32 = guess.trim().parse().expect("Please type a number!"); // shadow variable
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
-        println!("You guessed: {guess}"); // {} is a placeholder like ${} in js
-
-
-
-
-        // --snip--
+        println!("You guessed: {guess}");
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
