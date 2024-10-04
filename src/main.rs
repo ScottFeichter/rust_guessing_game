@@ -16,14 +16,12 @@ fn main() {
             .read_line(&mut guess) // & indicates that this is a reference - references are immutable by default so you must include the mut
             .expect("Failed to read line");
 
-        let guess: u32 = guess.trim().parse().expect("Please type a number!"); // shadow variable
+        let guess: u32 = match guess.trim().parse() { // shadow variable
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
         println!("You guessed: {guess}"); // {} is a placeholder like ${} in js
-
-
-
-
-        // --snip--
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
